@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Supplier Dashboard | StreetSupply</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- PDF Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+
+    body {
+      background-color: #e9fdfa;
+      min-height: 100vh;
+    }
+
+    nav {
+      background: rgba(226, 247, 247, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand a {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #080808;
+      text-decoration: none;
+      margin-left: 2rem;
+    }
+
+    .profile-container {
+      position: relative;
+      right: 2rem;
+    }
+
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background: #e9fdfa;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 160px;
+      z-index: 999;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: #333;
+      transition: background 0.2s;
+    }
+
+    .dropdown a:hover {
+      background: red;
+      color: white;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    h1, h3 {
+      text-align: center;
+      color: #343a40;
+    }
+
+    .details-box {
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+      background-color: #343a40;
+      color: white;
+    }
+
+    .download-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      float: right;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="brand"><a href="index.html">Lopemay</a></div>
+    <div class="profile-container">
+      <div class="profile-icon" id="profileIcon">U</div>
+      <div class="dropdown" id="dropdownMenu">
+        <a href="pic.html">Profile</a>
+        <a href="supplier-dashboard.html">Product</a>
+        <a href="customer.html">Customer</a>
+        <a href="supplierlogin.html" id="logoutBtn">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="details-box">
+      <h3>Supplier: <span id="supplierName">Loading...</span></h3>
+    </div>
+
+    <h3>📦 Current Stock</h3>
+    <table id="stockTable">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quality</th>
+          <th>Quantity (kg)</th>
+          <th>Price (₹/kg)</th>
+          <th>Delivery Areas</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <button class="download-btn" onclick="downloadPDF()">⬇️ Download PDF</button>
+  </div>
+
+  <script>
+    const icon = document.getElementById('profileIcon');
+    const menu = document.getElementById('dropdownMenu');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const supplierNameSpan = document.getElementById('supplierName');
+    let stockList = [];
+
+    // Dropdown toggle
+    icon.addEventListener('click', () => {
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    });
+
+    // Close dropdown outside click
+    window.addEventListener('click', (e) => {
+      if (!e.target.closest('.profile-container')) {
+        menu.style.display = 'none';
+      }
+    });
+
+    // User and stock loading
+    const user = JSON.parse(localStorage.getItem('loggedInSupplier'));
+    if (user && user.name) {
+      icon.textContent = user.name.charAt(0).toUpperCase();
+      supplierNameSpan.textContent = user.name;
+    } else {
+      window.location.href = 'supplierlogin.html';
+    }
+
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInSupplier');
+      window.location.href = 'supplierlogin.html';
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const stockTable = document.getElementById("stockTable").querySelector("tbody");
+      stockList = JSON.parse(localStorage.getItem("supplierStock")) || [];
+
+      stockTable.innerHTML = "";
+      stockList.forEach((stock) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${stock.item}</td>
+          <td>${stock.quality}</td>
+          <td>${stock.quantity}</td>
+          <td>₹${stock.price}</td>
+          <td>${stock.areas}</td>
+        `;
+        stockTable.appendChild(row);
+      });
+    });
+
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(18);
+      doc.text("Supplier Stock Report", 14, 22);
+
+      doc.setFontSize(12);
+      doc.text(`Supplier: ${supplierNameSpan.textContent || "N/A"}`, 14, 32);
+
+      const tableData = stockList.map(stock => [
+        stock.item,
+        stock.quality,
+        stock.quantity,
+        `₹${stock.price}`,
+        stock.areas
+      ]);
+
+      doc.autoTable({
+        startY: 40,
+        head: [["Item", "Quality", "Quantity (kg)", "Price (₹/kg)", "Delivery Areas"]],
+        body: tableData,
+      });
+
+      doc.save("Supplier_Stock.pdf");
+    }
+  </script>
+</body>
+</html>

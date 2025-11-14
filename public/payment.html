@@ -1,0 +1,148 @@
+<!-- payment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select Payment Method</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .section {
+      margin: 20px 0;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .upi-methods,
+    .upi-details {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .btn:hover{
+      background-color: #007bffc5;
+    }
+
+    .order-info {
+      background: #e9f1ff;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .order-info p {
+      margin: 6px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Confirm Your Order</h2>
+    <div class="order-info" id="orderDetails"></div>
+
+    <hr>
+
+    <div class="section">
+      <h3>Select Payment Method</h3>
+      <label><input type="radio" name="paymentMode" value="cod"> Cash on Delivery</label>
+      <label><input type="radio" name="paymentMode" value="online"> Online Payment</label>
+    </div>
+
+    <div class="upi-methods" id="upiMethods">
+      <h4>Choose UPI App:</h4>
+      <label><input type="radio" name="upiApp" value="PhonePe"> PhonePe</label>
+      <label><input type="radio" name="upiApp" value="Paytm"> Paytm</label>
+      <label><input type="radio" name="upiApp" value="GooglePay"> Google Pay</label>
+    </div>
+
+    <div class="upi-details" id="upiDetails">
+      <label for="upiId">Enter your UPI ID:</label>
+      <input type="text" id="upiId" placeholder="example@upi" style="width:100%; padding:8px;">
+    </div>
+
+    <button class="btn" onclick="confirmPayment()">Proceed</button>
+  </div>
+
+  <script>
+    const orderData = JSON.parse(localStorage.getItem("currentOrder"));
+
+    if (orderData) {
+      document.getElementById("orderDetails").innerHTML = `
+        <p><strong>Vendor Name:</strong> ${orderData.vendorName}</p>
+        <p><strong>Product:</strong> ${orderData.product}</p>
+        <p><strong>Quantity:</strong> ${orderData.quantity}</p>
+        <p><strong>Contact:</strong> ${orderData.contact}</p>
+        <p><strong>Address:</strong> ${orderData.address}</p>
+      `;
+    }
+
+    document.querySelectorAll('input[name="paymentMode"]').forEach(radio => {
+      radio.addEventListener("change", function () {
+        const showUPI = this.value === "online";
+        document.getElementById("upiMethods").style.display = showUPI ? "block" : "none";
+        document.getElementById("upiDetails").style.display = showUPI ? "block" : "none";
+      });
+    });
+
+    function confirmPayment() {
+  const selectedPayment = document.querySelector('input[name="paymentMode"]:checked');
+  if (!selectedPayment) return alert("Please select a payment method.");
+
+  if (selectedPayment.value === "online") {
+    const upiId = document.getElementById("upiId").value.trim();
+    const upiApp = document.querySelector('input[name="upiApp"]:checked');
+    if (!upiApp) return alert("Please select a UPI app.");
+    if (!upiId) return alert("Enter your UPI ID.");
+
+    // Save UPI info if needed
+    localStorage.setItem("paymentMode", "online");
+    localStorage.setItem("upiApp", upiApp.value);
+    localStorage.setItem("upiId", upiId);
+
+    // Redirect to payment link page
+    window.location.href = "paymentLink.html";
+
+  } else if (selectedPayment.value === "cod") {
+    localStorage.setItem("paymentMode", "cod");
+    // Redirect to processing page for COD
+    window.location.href = "orderPlaced.html";
+  }
+}
+  </script>
+</body>
+</html>

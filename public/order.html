@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Place Order | StreetSupply</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+
+    *{
+      margin: 0;
+      padding: 0;
+       box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e9fdfa;
+    }
+
+    .brand {
+      position: absolute;
+      top: 20px;
+      left: 4rem;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+
+    .order-box {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      margin-top: 5.8rem;
+      margin-bottom: 4rem;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    select,
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: red;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+      
+    }
+
+    button:hover {
+      background: black;
+      transition: .3s ease;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      color: white;
+      font-size: 0.85rem;
+      padding: 10px 0;
+      background: #111;
+      width: 100%;
+      
+    }
+  </style>
+</head>
+
+<body>
+  <div class="brand">lopemay</div>
+  <div class="order-box">
+    <h2>Place Your Order</h2>
+    <form id="orderForm">
+      <label>Choose Supplier:</label>
+      <select id="supplierSelect" required>
+        <option value="">-- Select Supplier --</option>
+        <option value="Agra Veg Suppliers">Agra Veg Suppliers</option>
+        <option value="Lucknow Spices">Lucknow Spices</option>
+        <option value="Kashi Masala Center">Kashi Masala Center</option>
+      </select>
+
+      <label>Item(s):</label>
+      <input type="text" id="items" placeholder="e.g. Tomatoes, Onions" required>
+
+      <label>Quantity:</label>
+      <input type="text" id="quantity" placeholder="e.g. 10kg, 5 packets" required>
+
+      <label>Delivery Address:</label>
+      <textarea id="address" placeholder="Street food stall location" required></textarea>
+
+      <button type="submit">Submit Order</button>
+      <p class="message" id="orderMessage"></p>
+    </form>
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 lopemay. All rights reserved.<br>Developed by Royd
+  </div>
+
+  <script>
+    const orderForm = document.getElementById("orderForm");
+    const message = document.getElementById("orderMessage");
+
+    orderForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const supplier = document.getElementById("supplierSelect").value;
+      const items = document.getElementById("items").value.trim();
+      const quantity = document.getElementById("quantity").value.trim();
+      const address = document.getElementById("address").value.trim();
+
+      const order = { supplier, items, quantity, address, time: new Date().toLocaleString() };
+
+      // Save to localStorage for demo
+      let orders = JSON.parse(localStorage.getItem("vendorOrders")) || [];
+      orders.push(order);
+      localStorage.setItem("vendorOrders", JSON.stringify(orders));
+
+      message.style.color = "green";
+      message.textContent = "Order placed successfully! ✅";
+
+      orderForm.reset();
+    });
+  </script>
+</body>
+
+</html>

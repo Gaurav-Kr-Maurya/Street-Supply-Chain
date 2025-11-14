@@ -1,0 +1,88 @@
+<!-- orderPlaced.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed</title>
+  <style>
+    body {
+      background: #e6ffe6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0, 128, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .box h1 {
+      color: green;
+      margin-bottom: 20px;
+    }
+
+    .details {
+      text-align: left;
+      margin-top: 20px;
+    }
+
+    .details p {
+      margin: 6px 0;
+    }
+
+    .btn {
+      background: #006400;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #004d00;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Order Placed Successfully ✅</h1>
+    <div class="details" id="orderSummary"></div>
+    <button class="btn" onclick="goBack()">Back to Home</button>
+  </div>
+
+  <script>
+    const order = JSON.parse(localStorage.getItem("currentOrder"));
+
+    if (order) {
+      document.getElementById("orderSummary").innerHTML = `
+        <p><strong>Vendor Name:</strong> ${order.vendorName}</p>
+        <p><strong>Product:</strong> ${order.product}</p>
+        <p><strong>Quantity:</strong> ${order.quantity}</p>
+        <p><strong>Contact:</strong> ${order.contact}</p>
+        <p><strong>Address:</strong> ${order.address}</p>
+        <p><strong>Status:</strong> Confirmed</p>
+      `;
+
+      // Push to "supplier-customer" section storage (append style)
+      const history = JSON.parse(localStorage.getItem("orderHistory") || "[]");
+      history.push({ ...order, status: "Confirmed" });
+      localStorage.setItem("orderHistory", JSON.stringify(history));
+    }
+
+    function goBack() {
+      window.location.href = "index.html"; // Or dashboard
+    }
+  </script>
+</body>
+</html>

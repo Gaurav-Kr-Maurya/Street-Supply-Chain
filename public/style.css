@@ -1,0 +1,604 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background-color: #e9fdfa;
+  color: #000;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+header {
+  align-items: center;
+  padding: 20px 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1000;
+  width: 100%;
+  height: 70px;
+  background: transparent;
+}
+
+.glass-header {
+  background: rgba(226, 247, 247, 0.2); /* Glass effect background */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+}
+
+#header h2 a {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: black;
+  text-decoration: none;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+nav a:hover {
+  border-bottom: red 3px solid;
+}
+
+.account-btn {
+  border: 0.5px solid red;
+  color: black;
+  padding: 8px 25px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.account-btn:hover {
+  background: red;
+  color: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #e9fdfa;
+  min-width: 100px;
+  z-index: 1;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 0.1rem 0.8rem;
+  text-decoration: none;
+  display: block;
+  gap: 0.5rem;
+}
+
+.dropdown-content a:hover {
+  background-color: red;
+  color: white;
+  transition: background 0.3s;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.hero {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 10rem;
+}
+
+.hero-image {
+  background-image: url("1.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 85vh;
+  margin-top: -10rem;
+  position: relative;
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+}
+
+.get-start-btn a {
+  background: red;
+  color: white;
+  font-weight: 600;
+  border-radius: 230px;
+  padding: 10px 30px;
+  text-decoration: none;
+  animation: pulse 2s infinite;
+}
+
+.get-start-btn a:hover {
+  color: rgb(12, 12, 12);
+  transition: all 0.3s ease;
+  border: 0.1px solid red;
+  background: none;
+}
+
+.solution-section {
+  background: #000000ab;
+  color: white;
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  overflow: hidden;
+}
+
+.solution-title {
+  font-size: 2.8rem;
+  margin-bottom: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s ease;
+}
+
+.solution-list {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 20px;
+}
+
+.solution-item {
+  background: #111;
+  border: 1px solid #333;
+  padding: 20px 40px;
+  border-radius: 12px;
+  font-size: 1.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.how-it-works {
+    width: 100%;
+    padding: 50px 20px;
+    text-align: center;
+    color: #fffdfd;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .how-it-works h2 {
+    width: 100%;
+    color: #0e0d0d;
+    font-family: 'Segoe UI', sans-serif;
+    padding: .8rem;
+  }
+
+  .how-title {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.6s ease;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .step {
+    font-size: 1.4em;
+    background: rgba(10, 10, 10, 0.767);
+    padding: 12px 25px;
+    border-radius: 10px;
+    width: fit-content;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.5s ease;
+  }
+
+  .how-title.show,
+  .step.show {
+    opacity: 1;
+    transform: none;
+  }
+
+   .compare-section {
+    text-align: center;
+    padding: 50px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(90deg, #050505fd, #0e0d0dc9);
+  }
+
+  .compare-title {
+    font-size: 2em;
+    color: #fdfbfb;
+    margin-bottom: 30px;
+  }
+
+  .compare-box {
+    display: inline-block;
+    padding: 25px 40px;
+    background-color: #ffffff;
+    border: 2px solid #fa0505;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    font-size: 1.5em;
+    min-width: 320px;
+    color: #222;
+    transition: all 0.5s ease;
+    position: relative;
+  }
+
+  .compare-item {
+    display: inline-block;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+.testimonials {
+  padding: 50px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  overflow: hidden;
+  margin-top: 4rem;
+}
+
+.testimonial-title {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.testimonials p {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  font-size: 1rem;
+  color: #444;
+}
+
+.testimonial-slider {
+  overflow: hidden;
+  position: relative;
+}
+
+.testimonial-track {
+  display: flex;
+  gap: 30px;
+  animation: scrollLeft 30s linear infinite;
+  width: max-content;
+}
+
+.testimonial-box {
+  flex: 0 0 auto;
+  width: 250px;
+  background: #f9f9f9;
+  border-radius: 15px;
+  padding: 20px 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+
+.testimonial-box p {
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.testimonial-box span {
+  display: block;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.testimonial-box:hover {
+  transform: scale(1.05);
+  background-color: #fff;
+}
+
+.testimonial-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-60%);
+  }
+}
+
+.about {
+  padding: 80px 6%;
+  text-align: center;
+}
+
+.about-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.about-desc {
+  max-width: 680px;
+  margin: 0 auto 40px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.about-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 30px 22px;
+  max-width: 320px;
+  text-align: left;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1);
+}
+
+.about-card img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 15px;
+}
+
+.about-card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.about-card p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+footer {
+  padding: 60px 5%;
+}
+
+.features .desc
+ {
+  text-align: center;
+  max-width: 700px;
+  margin: auto;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.brands {
+  padding: 80px 5% 60px;
+  background-color: #fc0202;
+}
+
+.brand-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  font-family: "Poppins", sans-serif;
+  color: #fffefe;
+  letter-spacing: 1px;
+}
+
+.brand-logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.brand-logos div {
+  background: #1f1e1e;
+  width: 110px;
+  height: 110px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: default;
+}
+
+.brand-logos div:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.brand-logos div span {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+/* Smooth fade-in effect */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cta-section {
+  background: linear-gradient(120deg, #000000, #1a1a1a);
+  color: #fff;
+  padding: 80px 20px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cta-content p {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 14px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.4s ease;
+}
+
+.vendor-btn {
+  background-color: #f80505;
+  color: #fcfbfb;
+}
+
+.supplier-btn {
+  background-color: transparent;
+  border: 2px solid #ff0505;
+  color: #fd0505;
+}
+
+.vendor-btn:hover {
+  background-color: #fff;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.supplier-btn:hover {
+  background-color: #ff0505;
+  color: #fffdfd;
+  transform: scale(1.05);
+}
+
+
+footer {
+  background: #000;
+  color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 40px 5%;
+}
+
+footer div {
+  margin: 10px;
+}
+
+footer h4 {
+  margin-bottom: 10px;
+}
+
+footer a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+footer a:hover{
+  color: red;
+  transition: .3s ease-in-out;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: white;
+  font-size: 0.85rem;
+  padding: 10px 0;
+  background: #111;
+}
+
+@media screen and (max-width: 768px) {
+  nav {
+    display: none;
+  }
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

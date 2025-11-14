@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Activity Logs | Admin | StreetSupply</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      margin: 0;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      background: #343a40;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar h3 {
+      margin-top: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      margin: 10px 0;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .sidebar a:hover {
+      background: #495057;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    table {
+      width: 100%;
+      background: white;
+      border-collapse: collapse;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #dee2e6;
+      text-align: center;
+    }
+
+    th {
+      background: #343a40;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #6c757d;
+    }
+
+    .logout {
+      background: #e74c3c;
+      border: none;
+      padding: 8px 14px;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body onload="renderLogs()">
+
+  <header>
+    Admin Dashboard - StreetSupply
+  </header>
+
+  <div class="dashboard">
+    <div class="sidebar">
+      <h3>Admin Menu</h3>
+      <a href="admin-dashboard.html">📦 Dashboard</a>
+      <a href="admin-suppliers.html">👥 All Suppliers</a>
+      <a href="admin-vendors.html">🧾 All Vendors</a>
+      <a href="admin-activity.html">📋 Activity Logs</a>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="content">
+      <h2>📋 Activity Log</h2>
+      <table id="logTable">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>User Type</th>
+            <th>User Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JS will render here -->
+        </tbody>
+      </table>
+      <p class="footer">Activity is logged from suppliers and vendors in real-time using localStorage</p>
+    </div>
+  </div>
+
+  <script>
+    function renderLogs() {
+      if (localStorage.getItem("isAdminLoggedIn") !== "true") {
+        window.location.href = "admin-login.html";
+      }
+
+      const logs = JSON.parse(localStorage.getItem("activityLogs")) || [];
+      const table = document.getElementById("logTable").querySelector("tbody");
+      table.innerHTML = "";
+
+      logs.reverse().forEach(log => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${log.time}</td>
+          <td>${log.userType}</td>
+          <td>${log.userName}</td>
+          <td>${log.action}</td>
+        `;
+        table.appendChild(row);
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem("isAdminLoggedIn");
+      window.location.href = "admin-login.html";
+    }
+  </script>
+
+</body>
+</html>

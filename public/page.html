@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solution Section</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .solution-section {
+      background: #000;
+      color: white;
+      width: 100%;
+      height: 110vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .solution-title {
+      font-size: 2.8rem;
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
+    }
+
+    .solution-list {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      gap: 20px;
+    }
+
+    .solution-item {
+      background: #111;
+      border: 1px solid #333;
+      padding: 20px 40px;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+
+    .show {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="solution-section">
+  <div class="solution-title" id="title">🚀 How We Work</div>
+  <div class="solution-list" id="solutionList">
+    <div class="solution-item">✅ Compare Prices</div>
+    <div class="solution-item">✅ Nearby Suppliers</div>
+    <div class="solution-item">✅ Quality Rated</div>
+    <div class="solution-item">✅ Save Time & Cost</div>
+  </div>
+</div>
+
+<script>
+ window.addEventListener("load", () => {
+  const title = document.getElementById("title");
+  const items = document.querySelectorAll(".solution-item");
+
+  // Show title once
+  setTimeout(() => title.classList.add("show"), 300);
+
+  let index = 0;
+
+  function cycleItems() {
+    // Hide all
+    items.forEach(item => item.classList.remove("show"));
+
+    // Show current
+    items[index].classList.add("show");
+
+    // Move to next item
+    index = (index + 1) % items.length;
+
+    // Repeat
+    setTimeout(cycleItems, 2000);
+  }
+
+  // Start after initial delay
+  setTimeout(cycleItems, 1000);
+});
+
+</script>
+
+</body>
+</html>

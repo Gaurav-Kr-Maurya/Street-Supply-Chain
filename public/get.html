@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Choose Role</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
+            background-color: #e9fdfa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brand {
+            position: absolute;
+            top: 20px;
+            left: 4rem;
+            font-size: 1.8rem;
+            font-weight: bolder;
+            color: #2c3e50;
+        }
+
+        div .btn {
+            background: rgb(248, 247, 247);
+            padding: 5rem 8rem;
+            border-radius: 15px;
+            position: relative;
+            gap: 10rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 400px;
+            border: none;
+
+        }
+
+        button:hover {
+            color: #fdfcfc;
+            transform: scale(1.05);
+            transition: .3s ease;
+            background-color: #0a0a0a;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: white;
+            font-size: 0.85rem;
+            padding: 10px 0;
+            background: #111;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+
+        }
+
+        @media (max-width: 500px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="brand">Lopemay</div>
+
+    <div class="container">
+        <button class="btn" id="vendorBtn">
+            <h1>Are you a Vendor?</h1>
+        </button>
+    </div>
+
+    <div class="container">
+        <button class="btn" id="supplierBtn">
+            <h1>Are you a Supplier?</h1>
+        </button>
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 lopemay. All rights reserved.<br>Developed by Royd
+    </div>
+
+    <script>
+        // Replace these with your actual registration page links
+        const vendorURL = "vendor_orderplace.html";
+        const supplierURL = "supregister.html";
+
+        document.getElementById("vendorBtn").addEventListener("click", function () {
+            window.location.href = vendorURL;
+        });
+
+        document.getElementById("supplierBtn").addEventListener("click", function () {
+            window.location.href = supplierURL;
+        });
+    </script>
+
+</body>
+
+</html>

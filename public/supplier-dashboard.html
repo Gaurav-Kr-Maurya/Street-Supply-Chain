@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Supplier Dashboard</title>
+  <style>
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+    }
+
+    .brand {
+      position: absolute;
+      top: 20px;
+      left: 4rem;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 6rem;
+    }
+
+    h2 {
+      text-align: center;
+      color: #343a40;
+      font-size: 1.8rem;
+      padding: 1rem;
+    }
+
+    .form-box {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .form-box input,
+    .form-box select,
+    .form-box textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+    }
+
+    .form-box button {
+      background-color: rgb(243, 44, 44);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+    }
+
+    button:hover{
+      color: #fcfafa;
+      background-color: black;
+      transition: .3s ease-in-out;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+      background-color: #343a40;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #6c757d;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+
+  </style>
+</head>
+<body>
+   <div class="brand">lopemay</div>
+  <div class="container">
+    <h2>📦 Supplier Dashboard</h2>
+
+    <div class="form-box">
+      <u><h3 align="center">Enter New Stock</h3></u>
+      <form id="stockForm">
+        <input type="text" id="item" placeholder="Stock Item Name" required>
+        <input type="text" id="quality" placeholder="Quality (e.g. Grade A, Organic)" required>
+        <input type="number" id="quantity" placeholder="Quantity (in kg)" required>
+        <input type="number" id="price" placeholder="Price per kg (in ₹)" required>
+        <textarea id="areas" placeholder="Delivery Areas (comma-separated)" rows="3" required></textarea>
+        <button type="submit">Add Stock</button>
+      </form>
+    </div>
+
+    <h3 style="text-align: center; padding: 1rem; font-size: 1.8rem;">📋 Current Stock</h3>
+    <table id="stockTable">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quality</th>
+          <th>Quantity (kg)</th>
+          <th>Price (₹/kg)</th>
+          <th>Delivery Areas</th>
+          <th>Action</th> <!-- New Action Column -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+  
+    <p class="footer">Supplier Panel - Helping Indian Street Vendors Grow 🚚🍅</p>
+  </div>
+  
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const stockForm = document.getElementById("stockForm");
+      const stockTable = document.getElementById("stockTable").querySelector("tbody");
+
+      let stockList = JSON.parse(localStorage.getItem("supplierStock")) || [];
+
+      const renderTable = () => {
+        stockTable.innerHTML = "";
+        stockList.forEach((stock, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${stock.item}</td>
+            <td>${stock.quality}</td>
+            <td>${stock.quantity}</td>
+            <td>₹${stock.price}</td>
+            <td>${stock.areas}</td>
+            <td><button class="delete-btn" onclick="deleteStock(${index})">Delete</button></td>
+          `;
+          stockTable.appendChild(row);
+        });
+      };
+
+      stockForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const item = document.getElementById("item").value;
+        const quality = document.getElementById("quality").value;
+        const quantity = document.getElementById("quantity").value;
+        const price = document.getElementById("price").value;
+        const areas = document.getElementById("areas").value;
+
+        const stockItem = { item, quality, quantity, price, areas };
+        stockList.push(stockItem);
+        localStorage.setItem("supplierStock", JSON.stringify(stockList));
+        renderTable();
+        stockForm.reset();
+      });
+
+      window.deleteStock = function(index) {
+        if (confirm("Are you sure you want to delete this stock entry?")) {
+          stockList.splice(index, 1);
+          localStorage.setItem("supplierStock", JSON.stringify(stockList));
+          renderTable();
+        }
+      };
+
+      renderTable();
+    });
+    function logActivity(userType, userName, action) {
+  const logs = JSON.parse(localStorage.getItem("activityLogs")) || [];
+  const timestamp = new Date().toLocaleString();
+
+  logs.push({ userType, userName, action, time: timestamp });
+  localStorage.setItem("activityLogs", JSON.stringify(logs));
+}
+
+  </script>
+
+</body>
+</html>

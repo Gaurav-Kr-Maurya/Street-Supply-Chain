@@ -1,0 +1,72 @@
+<!-- processing.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Processing Payment</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+
+    .loader {
+      text-align: center;
+    }
+
+    .loader h2 {
+      margin-bottom: 20px;
+    }
+
+    .spinner {
+      border: 5px solid #ccc;
+      border-top: 5px solid #007bff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="loader">
+    <h2>Processing your payment...</h2>
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+ const orderData = JSON.parse(localStorage.getItem("currentOrder")) || {};
+orderData.paymentMode = localStorage.getItem("paymentMode") || "N/A";
+orderData.orderStatus = "Placed";
+orderData.time = new Date().toLocaleString();
+
+// Push to supplierCustomerOrders
+const allOrders = JSON.parse(localStorage.getItem("supplierCustomerOrders")) || [];
+allOrders.push(orderData);
+localStorage.setItem("supplierCustomerOrders", JSON.stringify(allOrders));
+
+// Clear temp
+localStorage.removeItem("currentOrder");
+localStorage.removeItem("paymentMode");
+localStorage.removeItem("upiId");
+localStorage.removeItem("upiApp");
+
+  // ✅ Final redirect after processing
+  setTimeout(() => {
+    window.location.href = "orderPlaced.html";
+  }, 1500); // single timeout
+</script>
+
+</body>
+</html>

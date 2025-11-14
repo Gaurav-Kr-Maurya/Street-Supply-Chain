@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Supplier Details</title>
+  <!-- For PDF import -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #343a40;
+    }
+
+    /* .details-box {
+      background-color: #ffffff;
+      padding: 5px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+    } */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+      background-color: #343a40;
+      color: white;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="details-box">
+      <h3>Supplier: <span id="supplierName">Shyam Traders</span></h3>
+    </div>
+
+    <h3 style="text-align: center;">📦 Current Stock</h3>
+    <table id="stockTable">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quality</th>
+          <th>Quantity (kg)</th>
+          <th>Price (₹/kg)</th>
+          <th>Delivery Areas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filled from localStorage -->
+      </tbody>
+    </table>
+    <!-- For Download Button -->
+    <div style="text-align: right; margin-bottom: 10px;">
+  <button onclick="downloadPDF()" style="background-color: #007bff; color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer;">
+    ⬇️ Download PDF
+  </button>
+  </div>
+
+    <!-- <p class="footer">Vendor View - Powered by Supplier Dashboard 🚚</p> -->
+  </div>
+
+  <script>
+  let stockList = [];
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const stockTable = document.getElementById("stockTable").querySelector("tbody");
+    stockList = JSON.parse(localStorage.getItem("supplierStock")) || [];
+
+    stockTable.innerHTML = "";
+    stockList.forEach((stock) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${stock.item}</td>
+        <td>${stock.quality}</td>
+        <td>${stock.quantity}</td>
+        <td>₹${stock.price}</td>
+        <td>${stock.areas}</td>
+      `;
+      stockTable.appendChild(row);
+    });
+  });
+
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const supplierName = document.getElementById("supplierName").textContent || "N/A";
+
+    doc.setFontSize(18);
+    doc.text("Supplier Stock Report", 14, 22);
+
+    doc.setFontSize(12);
+    doc.text(`Supplier: ${supplierName}`, 14, 32);
+
+    const tableData = stockList.map(stock => [
+      stock.item,
+      stock.quality,
+      stock.quantity,
+      `₹${stock.price}`,
+      stock.areas
+    ]);
+
+    doc.autoTable({
+      startY: 40,
+      head: [["Item", "Quality", "Quantity (kg)", "Price (₹/kg)", "Delivery Areas"]],
+      body: tableData,
+    });
+
+    doc.save("Supplier_Stock.pdf");
+  }
+
+  </script>
+  
+</body>
+</html>

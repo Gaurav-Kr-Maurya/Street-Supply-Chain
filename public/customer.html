@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Orders</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: left;
+    }
+
+    th {
+      background-color: #1976d2;
+      color: white;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    tr:hover {
+      background-color: #f1faff;
+    }
+
+    .status {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .status.Placed {
+      background-color: #43a047;
+    }
+
+    .status.Pending {
+      background-color: #fbc02d;
+      color: #000;
+    }
+
+    .status.Cancelled {
+      background-color: #e53935;
+    }
+  </style>
+</head>
+<body>
+  <h1>📦 Vendor Customer Orders</h1>
+
+  <table id="orderTable">
+    <thead>
+      <tr>
+        <th>Vendor Name</th>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Contact</th>
+        <th>Address</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const orders = JSON.parse(localStorage.getItem("supplierCustomerOrders")) || [];
+    const tbody = document.querySelector("#orderTable tbody");
+
+    if (orders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8">No orders found.</td></tr>`;
+    } else {
+      orders.forEach(order => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${order.vendorName || "N/A"}</td>
+          <td>${order.product || "N/A"}</td>
+          <td>${order.quantity || "N/A"}</td>
+          <td>${order.contact || "N/A"}</td>
+          <td>${order.address || "N/A"}</td>
+          <td>${order.paymentMode || "N/A"}</td>
+          <td>${order.orderStatus || "Pending"}</td>
+          <td>${order.time || "N/A"}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  });
+</script>
+</body>
+</html>

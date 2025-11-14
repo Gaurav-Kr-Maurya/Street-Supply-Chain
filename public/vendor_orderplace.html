@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vendor Orderplace</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #fff, #e6f2ff);
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #050505;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #070707;
+      color: white;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #43a047;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛒 Vendor Orderplace</h1>
+
+  <div class="message" id="messageBox"></div>
+
+  <table id="marketTable">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Quality</th>
+        <th>Available (kg)</th>
+        <th>Price (₹/kg)</th>
+        <th>Delivery Areas</th>
+        <th>Order Qty</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const stockData = JSON.parse(localStorage.getItem("supplierStock")) || [];
+      const tableBody = document.querySelector("#marketTable tbody");
+      const messageBox = document.getElementById("messageBox");
+
+      stockData.forEach((stock, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${stock.item}</td>
+          <td>${stock.quality}</td>
+          <td>${stock.quantity}</td>
+          <td>₹${stock.price}</td>
+          <td>${stock.areas}</td>
+          <td><input type="number" min="1" max="${stock.quantity}" id="qty-${index}" /></td>
+          <td><button onclick="placeOrder(${index})">Order Now</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      window.placeOrder = (index) => {
+        const qtyInput = document.getElementById(`qty-${index}`);
+        const quantity = parseInt(qtyInput.value);
+        if (!quantity || quantity <= 0) {
+          alert("Please enter a valid quantity.");
+          return;
+        }
+
+        const orderItem = stockData[index];
+        const newOrder = {
+          item: orderItem.item,
+          quality: orderItem.quality,
+          quantity,
+          price: orderItem.price,
+          total: quantity * orderItem.price,
+          orderedAt: new Date().toLocaleString()
+        };
+
+        // Save to localStorage (simulate order history)
+        const vendorOrders = JSON.parse(localStorage.getItem("vendorOrders")) || [];
+        vendorOrders.push(newOrder);
+        // Save to localStorage for use in order.html
+  localStorage.setItem("currentOrder", JSON.stringify(newOrder));
+
+  
+  window.location.href = "ordernow.html";
+      };
+    });
+    function logActivity(userType, userName, action) {
+  const logs = JSON.parse(localStorage.getItem("activityLogs")) || [];
+  const timestamp = new Date().toLocaleString();
+
+  logs.push({ userType, userName, action, time: timestamp });
+  localStorage.setItem("activityLogs", JSON.stringify(logs));
+}
+
+  </script>
+
+</body>
+</html>

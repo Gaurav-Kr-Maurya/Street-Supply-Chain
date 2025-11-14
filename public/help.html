@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Help & Support</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f3f5;
+      color: #333;
+    }
+
+    header {
+      background-color: grey;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h2.section-title {
+      margin-top: 40px;
+      color: #007bff;
+    }
+
+    .accordion {
+      margin: 20px 0;
+    }
+
+    .accordion-item {
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .accordion-title {
+      padding: 15px 20px;
+      background-color: #e9ecef;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .accordion-title:hover {
+      background-color: #d4dce2;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: white;
+      padding: 0 20px;
+    }
+
+    .accordion-content p {
+      padding: 15px 0;
+      margin: 0;
+    }
+
+    .footer-bottom {
+  text-align: center;
+  color: white;
+  font-size: 0.85rem;
+  padding: 10px 0;
+  background: #111;
+}
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Help & Support</h1>
+    <p>Need assistance? You’re in the right place!</p>
+  </header>
+
+  <div class="container">
+
+    <h2 class="section-title">👨‍🍳 For Suppliers</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title">How do I list my stock?</div>
+        <div class="accordion-content">
+          <p>After logging in, go to the Supplier Dashboard and use the stock form to enter your items. Mention name, quantity, quality, and price. Click “Add” to list it.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-title">Can I update or delete my stock later?</div>
+        <div class="accordion-content">
+          <p>Yes! In the dashboard, you can edit or delete your stock using the respective buttons beside each entry.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">🛒 For Vendors</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title">How can I view available stock?</div>
+        <div class="accordion-content">
+          <p>Visit the Vendor section of the website. You’ll see a list of suppliers with their stock details — including item name, quantity, and price.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-title">Can I place an order directly?</div>
+        <div class="accordion-content">
+          <p>Yes! After checking available items, click on “Place Order” beside the item, enter your quantity, and confirm the order.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">❓ General Questions</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title">Is my data safe?</div>
+        <div class="accordion-content">
+          <p>Absolutely. We take data protection seriously. Your information is stored securely and only visible to relevant users.</p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-title">How do I contact support?</div>
+        <div class="accordion-content">
+          <p>You can reach us through our <a href="contact.html">Contact Us</a> page.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 lopemay. All rights reserved.<br>Developed by Royd
+  </div>
+
+  <script>
+    const titles = document.querySelectorAll(".accordion-title");
+
+    titles.forEach(title => {
+      title.addEventListener("click", () => {
+        const content = title.nextElementSibling;
+        const isOpen = content.style.maxHeight;
+
+        // Close all other open accordions
+        document.querySelectorAll(".accordion-content").forEach(c => {
+          c.style.maxHeight = null;
+        });
+
+        // Toggle current
+        if (!isOpen) {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f3f5;
+      color: #333;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1523289333742-be1143f6b766') no-repeat center center/cover;
+      padding: 70px 20px;
+      color: black;
+      text-align: left;
+
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section h2 {
+      color: black;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    label {
+      margin-bottom: 8px;
+      display: block;
+      font-weight: 600;
+    }
+
+    button {
+      background-color: red;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: green;
+      display: none;
+    }
+
+    .contact-info {
+      margin-top: 40px;
+    }
+
+    .contact-info p {
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+
+    .footer-bottom {
+  text-align: center;
+  color: white;
+  font-size: 0.85rem;
+  padding: 10px 0;
+  background: #111;
+}
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <h1>Contact Us</h1>
+    <p>We’re here to help you. Reach out anytime!</p>
+  </div>
+
+  <div class="container">
+    <div class="section">
+      <h2>Send Us a Message</h2>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email *</label>
+          <input type="email" id="email" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Your Message *</label>
+          <textarea id="message" rows="5" required></textarea>
+        </div>
+        <button type="submit">📩 Send Message</button>
+      </form>
+      <div class="message" id="successMessage">✅ Message sent successfully!</div>
+    </div>
+
+    <div class="section contact-info">
+      <h2 style="color: black;">Other Ways to Reach Us</h2>
+      <p><strong>Email:</strong> gauravmaurya2002@gmail.com</p>
+      <p><strong>Phone:</strong> +91 87656XXXXX </p>
+      <p><strong>Location:</strong> Sarnath,Varanasi, Uttar Pradesh, India</p>
+      <p><strong>Google Maps:</strong> <a href="https://goo.gl/maps/xXxXxX" target="_blank">Find us here</a></p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2025 lopemay. All rights reserved.<br>Developed by Royd
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('successMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Simple validation check
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (name && email && message) {
+        successMsg.style.display = 'block';
+        form.reset();
+
+        setTimeout(() => {
+          successMsg.style.display = 'none';
+        }, 4000);
+      }
+    });
+  </script>
+
+</body>
+</html>
